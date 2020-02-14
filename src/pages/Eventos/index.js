@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '~/services/api';
-import { Container, Evento } from './styles';
+import { Container } from './styles';
 import Header from '~/components/Header';
 
 export default function Eventos() {
@@ -20,7 +20,6 @@ export default function Eventos() {
       <Container>
         {eventos.map(evento => (
           <ul key={evento.id}>
-            <Evento available>
               <strong>{evento.descricao}</strong>
               <span>{evento.data}</span>
               <span>{evento.sala.nome}</span>
@@ -33,7 +32,6 @@ export default function Eventos() {
                   Desmarcar minha presença
                 </button>
               )}
-            </Evento>
           </ul>
         ))}
       </Container>
