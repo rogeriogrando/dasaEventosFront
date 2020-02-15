@@ -1,7 +1,12 @@
 import React from 'react';
 import { Container } from './styles';
 import Header from '~/components/Header';
-import adm from '~/assets/adm.png';
+import admcard from '~/assets/admcard.jpg'
+import agrocard from '~/assets/agrocard.jpg'
+import cccard from '~/assets/cccard.jpg'
+import direitocard from '~/assets/direitocard.jpg'
+import enfcard from '~/assets/enfcard.jpg'
+import psiccard from '~/assets/psiccard.jpg'
 
 export default function Cursos() {
   return (
@@ -9,46 +14,22 @@ export default function Cursos() {
       <Header />
       <Container>
         <ul key="adm">
-          <img src={adm} alt="adm" />
-          <strong>Administração</strong>
-          <button type="button" className="btn-acessar">
-            Acessar Palestras
-          </button>
-        </ul>
-        <ul key="cont">
-          <img src={adm} alt="adm" />
-          <strong>Contábil</strong>
-          <button type="button" className="btn-acessar">
-            Acessar Palestras
-          </button>
-        </ul>
-        <ul key="agr">
-          <img src={adm} alt="adm" />
-          <strong>Agronomia</strong>
-          <button type="button" className="btn-acessar">
-            Acessar Palestras
-          </button>
+          <img src={admcard} alt="admcard" />
         </ul>
         <ul key="adm">
-          <img src={adm} alt="adm" />
-          <strong>Administração</strong>
-          <button type="button" className="btn-acessar">
-            Acessar Palestras
-          </button>
+          <img src={agrocard} alt="agrocard" />
         </ul>
-        <ul key="cont">
-          <img src={adm} alt="adm" />
-          <strong>Contábil</strong>
-          <button type="button" className="btn-acessar">
-            Acessar Palestras
-          </button>
+        <ul key="adm">
+          <img src={cccard} alt="cccard" />
         </ul>
-        <ul key="agr">
-          <img src={adm} alt="adm" />
-          <strong>Agronomia</strong>
-          <button type="button" className="btn-acessar">
-            Acessar Palestras
-          </button>
+        <ul key="adm">
+          <img src={direitocard} alt="direitocard" />
+        </ul>
+        <ul key="adm">
+          <img src={enfcard} alt="enfcard" />
+        </ul>
+        <ul key="adm">
+          <img src={psiccard} alt="psiccard" />
         </ul>
       </Container>
     </>
