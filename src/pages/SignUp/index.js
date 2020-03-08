@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container } from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
@@ -25,17 +26,19 @@ export default function SignUp() {
   }
   return (
     <>
-      <img src={logo} alt="Faesb" />
-      <Form schema={schema} onSubmit={handleSubmit}>
-        <Input name="nome" placeholder="Nome completo" />
-        <Input name="email" type="email" placeholder="Seu e-mail" />
-        <Input name="pass" type="password" placeholder="Sua senha" />
+      <Container>
+        <img src={logo} alt="Faesb" />
+        <Form schema={schema} onSubmit={handleSubmit}>
+          <Input name="nome" placeholder="Nome completo" />
+          <Input name="email" type="email" placeholder="Seu e-mail" />
+          <Input name="pass" type="password" placeholder="Sua senha" />
 
-        <button type="submit">
-          {loading ? 'Carregando...' : 'Criar conta'}
-        </button>
-        <Link to="/">Já tenho login</Link>
-      </Form>
+          <button type="submit">
+            {loading ? 'Carregando...' : 'Criar conta'}
+          </button>
+          <Link to="/">Já tenho login</Link>
+        </Form>
+      </Container>
     </>
   );
 }

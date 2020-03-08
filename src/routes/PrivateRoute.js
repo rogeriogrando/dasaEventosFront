@@ -8,13 +8,19 @@ export default function RouterWapper({
   component: Component,
   isPrivate = false,
   ...rest
-}) {
+}) 
+{
   const { signed } = store.getState().auth;
+  const { papel } = store.getState().usuario;
+  console.tron.log(papel );
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
   }
-  if (signed && !isPrivate) {
+  if (signed && !isPrivate ) {
     return <Redirect to="/cursos" />;
+  }
+  if ( papel === "usuario"  ) {
+    return <Redirect to="/" />;
   }
 
   return <Route {...rest} render={props => <Component {...props} />} />;

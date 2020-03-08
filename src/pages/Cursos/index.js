@@ -1,12 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import { Container } from './styles';
 import Header from '~/components/Header';
-import admcard from '~/assets/admcard.jpg'
-import agrocard from '~/assets/agrocard.jpg'
-import cccard from '~/assets/cccard.jpg'
-import direitocard from '~/assets/direitocard.jpg'
-import enfcard from '~/assets/enfcard.jpg'
-import psiccard from '~/assets/psiccard.jpg'
+import adm from '~/assets/adm.png'
+import agro from '~/assets/agro.png'
+import cont from '~/assets/cont.png'
+import dir from '~/assets/dir.png'
+import enf from '~/assets/enf.png'
+import psi from '~/assets/psi.png'
 
 export default function Cursos() {
   return (
@@ -14,22 +16,34 @@ export default function Cursos() {
       <Header />
       <Container>
         <ul key="adm">
-          <img src={admcard} alt="admcard" />
+          <Link to="/eventos">
+            <img src={adm} alt="adm"/>          
+          </Link>
         </ul>
-        <ul key="adm">
-          <img src={agrocard} alt="agrocard" />
+        <ul key="agro">
+          <Link to="/eventos">
+            <img src={agro} alt="agro" />
+          </Link>
+        </ul>        
+        <ul key="cont">
+          <Link to="/eventos">
+            <img src={cont} alt="cont" />
+          </Link>
         </ul>
-        <ul key="adm">
-          <img src={cccard} alt="cccard" />
+        <ul key="dir">
+          <Link to="/eventos">
+            <img src={dir} alt="dir" />
+          </Link>
         </ul>
-        <ul key="adm">
-          <img src={direitocard} alt="direitocard" />
+        <ul key="enf">
+          <Link to="/eventos">
+            <img src={enf} alt="enf" />
+          </Link>
         </ul>
-        <ul key="adm">
-          <img src={enfcard} alt="enfcard" />
-        </ul>
-        <ul key="adm">
-          <img src={psiccard} alt="psiccard" />
+        <ul key="psi">
+          <Link to="/eventos">
+            <img src={psi} alt="psi" />
+          </Link>
         </ul>
       </Container>
     </>
