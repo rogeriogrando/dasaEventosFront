@@ -13,7 +13,7 @@ export function* signIn({ payload }) {
       email,
       pass,
     });
-    console.tron.log(response.data);
+
     const { token, usuario } = response.data;
 
     api.defaults.headers['Authorization'] = `Bearer ${token}`;

@@ -1,0 +1,6 @@
+Visualiza todos eventos
+Visualizar eventos por cursos
+Cadastro de eventos
+Cadastro de salas
+Cadastro de coordenador
+Perfil

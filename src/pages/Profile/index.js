@@ -4,12 +4,14 @@ import { Form, Input } from '@rocketseat/unform';
 import { signOut } from '~/store/modules/auth/actions';
 import { Container } from './styles';
 import Header from '~/components/Header';
+import { updateProfileRequest } from '~/store/modules/usuario/actions';
 
 export default function Profile() {
   const dispatch = useDispatch();
   const profile = useSelector(state => state.usuario.profile);
+
   function handleSubmit(data) {
-    console.tron.log(data);
+    dispatch(updateProfileRequest(data));
   }
   function handleSignOut() {
     dispatch(signOut());
@@ -22,11 +24,12 @@ export default function Profile() {
           <Input name="nome" placeholder="Nome completo" />
           <Input name="email" type="email" placeholder="E-mail" />
           <hr />
-          <Input name="oldPassword" type="password" placeholder="Senha atual" />
+          <Input name="oldPass" type="password" placeholder="Senha atual" />
+          <Input name="pass" type="password" placeholder="Nova senha" />
           <Input
-            name="confirmPassword"
+            name="confirPass"
             type="password"
-            placeholder="Nova senha"
+            placeholder="Confime Nova senha"
           />
           <button type="submit">Atualizar perfil</button>
         </Form>

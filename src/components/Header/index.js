@@ -1,52 +1,121 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Navbar, Nav, NavDropdown, Figure, Button } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { signOut } from '~/store/modules/auth/actions';
+
+import api from '~/services/api';
 
 import logo from '~/assets/logo.ico';
 
-import { Container, Content, Profile } from './styles';
+import { Container } from './styles';
 
 export default function Header() {
+  const dispatch = useDispatch();
   const profile = useSelector(state => state.usuario.profile);
   const [papeis, setPapeis] = useState(false);
+  const [cursos, setCursos] = useState([]);
 
   useEffect(() => {
     const papel = profile.papel;
-    if (papel === "coordenador" || papel === "admin") {
+    if (papel === 'coordenador' || papel === 'admin') {
       setPapeis(true);
     } else {
       setPapeis(false);
     }
-     
-  }, []);
+  }, [profile.papel]);
+
+  function handleSignOut() {
+    dispatch(signOut());
+  }
+
+  async function handleLoadCurso() {
+    const response = await api.get('cursos');
+    setCursos(response.data);
+  }
 
   return (
     <Container>
-      <Content>
-        <nav>
-          <img src={logo} alt="faesb" />
-          <Link to="/eventos">Todos os Eventos</Link>
-        </nav>
-        <nav>
-        {papeis && <Link to="/admeditusuarios" className="nav-item nav-link">Admin</Link>}
-        </nav>
-        <nav>
-          <Link to="/Cursos">Filtrar por Cursos</Link>
-        </nav>
+      <Navbar collapseOnSelect expand="lg" variant="dark">
+        <Navbar.Brand>
+          <Nav className="figure-img">
+            <Figure.Image src={logo} />
+          </Nav>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link key="profile" href="/profile">
+              Perfil
+            </Nav.Link>
+            <Nav.Link key="meuseventos" href="/usuarioeventos">
+              Meus eventos
+            </Nav.Link>
+            <Nav.Link key="meuscertificados" href="/usuariocertificados">
+              Certificados
+            </Nav.Link>
+            {papeis && (
+              <Nav.Link key="eventopresencas" href="/eventopresencas">
+                Lista de presenças
+              </Nav.Link>
+            )}
 
-        <aside>
-          <Profile>
-            <div>
-              <strong>{profile.nome}</strong>
-              <Link to="/profile">Meu perfil</Link>
-            </div>
-            <img
-              src="https://api.adorable.io/avatars/50/abott@adorable.png"
-              alt="Rogerio Grando"
-            />
-          </Profile>
-        </aside>
-      </Content>
+            <NavDropdown
+              key="cursos"
+              title="Eventos"
+              id="collasible-nav-dropdown"
+              onClick={handleLoadCurso}
+            >
+              {cursos.map(curso => (
+                <NavDropdown.Item
+                  key={curso.id}
+                  title="EventosCursos"
+                  href={`/eventocursos?id=${curso.id}`}
+                >
+                  {curso.nome}
+                </NavDropdown.Item>
+              ))}
+              <NavDropdown.Divider />
+              <NavDropdown.Item eventKey="todos" href={'/eventos'}>
+                Todos
+              </NavDropdown.Item>
+            </NavDropdown>
+
+            {papeis && (
+              <NavDropdown
+                key="cadastros"
+                title="Cadastros"
+                id="collasible-nav-dropdown"
+              >
+                <NavDropdown.Item key="cadeventos" href="/cadeventos">
+                  Eventos
+                </NavDropdown.Item>
+                <NavDropdown.Item key="cadcursos" href="/cadcursos">
+                  Cursos
+                </NavDropdown.Item>
+                <NavDropdown.Item key="cadlocais" href="/cadlocais">
+                  Local do evento
+                </NavDropdown.Item>
+                <NavDropdown.Item key="cadcoord" href="/cadcoord">
+                  Coordenador
+                </NavDropdown.Item>
+                <NavDropdown.Item key="cadcertificados" href="/cadcertificados">
+                  Modelos de Certificados
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
+          </Nav>
+          <Nav>
+            <Navbar.Collapse className="justify-content-end">
+              <Navbar.Text className="profile">
+                Bem vindo: <a href="/profile">{profile.nome} </a>
+              </Navbar.Text>
+              <Button variant="info" onClick={handleSignOut} href="/">
+                Sair
+              </Button>
+            </Navbar.Collapse>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     </Container>
   );
 }

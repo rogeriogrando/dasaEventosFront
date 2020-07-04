@@ -6,7 +6,7 @@ export default reducers => {
     {
       key: 'eventosfaesb',
       storage,
-      whitelist: ['auth', 'usuario'],
+      whitelist: ['auth', 'usuario', 'curso'],
     },
     reducers
   );

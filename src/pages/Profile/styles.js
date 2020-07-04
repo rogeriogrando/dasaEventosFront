@@ -10,7 +10,7 @@ export const Container = styled.div`
     align-content: center;
 
     input {
-      background: rgba(0, 0, 0, 0.1);
+      background: rgba(0, 0, 0, 0.6);
       border: 0;
       border-radius: 4px;
       height: 44px;
@@ -33,14 +33,14 @@ export const Container = styled.div`
     hr {
       border: 0;
       height: 1px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.6);
       margin: 10px 0 20px;
     }
 
     button {
       margin: 5px 0 0;
       height: 44px;
-      background: #3b9eff;
+      background: #3f89ff;
       color: #fff;
       border: 0;
       border-radius: 4px;
@@ -48,7 +48,7 @@ export const Container = styled.div`
       transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.08, '#3b9eff')};
+        background: ${darken(0.08, '#3F89ff')};
       }
     }
   }

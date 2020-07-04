@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import queryString from 'query-string';
 import { Form, Card, Button, Col, Modal, CardColumns } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 import api from '~/services/api';
 import { Container } from './styles';
 import Header from '~/components/Header';
@@ -10,18 +10,15 @@ import {
   participarEventoRequest,
 } from '~/store/modules/evento/actions';
 
-export default function Eventos() {
+export default function EventoCursos(props) {
   const [loadEventos, setLoadEventos] = useState([]);
   const [show, setShow] = useState(false);
   const [eventos, setEventos] = useState([]);
   const [evento, setEvento] = useState([]);
   const [cursos, setCursos] = useState([]);
-  const [modelos, setModelos] = useState([]);
   const [local, setLocal] = useState([]);
 
-  const [ativo, setAtivo] = useState(false);
-  const [showLoad, setShowLoad] = useState(false);
-  const handleCloseLoad = () => setShowLoad(false);
+  const [ativo, setAtivo] = useState(true);
 
   const [papeis, setPapeis] = useState(false);
   const profile = useSelector(state => state.usuario.profile);
@@ -42,15 +39,14 @@ export default function Eventos() {
       setCursos(cursos.data);
       const local = await api.get('locais');
       setLocal(local.data);
-      const modelos = await api.get('modelos');
-      setModelos(modelos.data);
     }
     loadDados();
   }, []);
 
   useEffect(() => {
     async function loadEventos() {
-      const response = await api.get('eventos');
+      const { id } = queryString.parse(props.location.search);
+      const response = await api.get(`eventos/${id}`);
       setEventos(response.data);
     }
     loadEventos();
@@ -77,7 +73,6 @@ export default function Eventos() {
   const dispatch = useDispatch();
 
   async function handleUpdate(evento) {
-    console.tron.log(evento);
     dispatch(updateEventoRequest(evento));
     const response = await api.get('eventos');
     setLoadEventos(response.data);
@@ -86,27 +81,6 @@ export default function Eventos() {
 
   async function handleAtivo(e) {
     ativo ? setAtivo(false) : setAtivo(true);
-  }
-
-  async function handleValidaCertificado(id, modelo_id) {
-    if (modelo_id === null) {
-      toast.error('Modelo de certificado não cadastrado.!');
-    } else {
-      setShowLoad(true);
-      const validaCert = await api.get(`validacertificados/${id}`);
-      window.setTimeout(function() {
-        fetch(validaCert.data.url).then(response => {
-          response.blob().then(blob => {
-            let url = window.URL.createObjectURL(blob);
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = `certificado${profile.id}.pdf`;
-            a.click();
-          });
-        });
-        setShowLoad(false);
-      }, 3000);
-    }
   }
 
   return (
@@ -150,35 +124,18 @@ export default function Eventos() {
                   <Form.Row>
                     <Card.Footer>
                       <Button
-                        style={{ width: 220 }}
                         variant="primary"
                         onClick={() => handleParticipar(evento.id)}
                       >
                         Quero participar
                       </Button>
                       {papeis && (
-                        <>
-                          <Button
-                            style={{ width: 220 }}
-                            variant="outline-success"
-                            onClick={() =>
-                              handleValidaCertificado(
-                                evento.id,
-                                evento.modelo_id
-                              )
-                            }
-                          >
-                            Validar certificado
-                          </Button>
-
-                          <Button
-                            style={{ width: 220 }}
-                            variant="outline-warning"
-                            onClick={() => handleShow(evento)}
-                          >
-                            Editar
-                          </Button>
-                        </>
+                        <Button
+                          variant="outline-warning"
+                          onClick={() => handleShow(evento)}
+                        >
+                          Editar
+                        </Button>
                       )}
                     </Card.Footer>
                   </Form.Row>
@@ -257,37 +214,14 @@ export default function Eventos() {
                 name="curso_id"
                 value={evento.curso_id}
                 onChange={e =>
-                  setEvento({ ...evento, curso_id: e.target.value || null })
+                  setEvento({ ...evento, curso_id: e.target.value })
                 }
                 as="select"
               >
-                <option value="">Todos</option>
+                <option>Todos</option>
                 {cursos.map(curso => (
                   <option value={curso.id} key={curso.id}>
                     {curso.nome}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group as={Col} controlId="formGridCurso">
-              <Form.Label>Modelos</Form.Label>
-              <Form.Control
-                style={{
-                  color: '#fff',
-                  backgroundColor: '#444',
-                  borderRadius: 4,
-                }}
-                name="modelo_id"
-                value={evento.modelo_id}
-                onChange={e =>
-                  setEvento({ ...evento, modelo_id: e.target.value || null })
-                }
-                as="select"
-              >
-                <option value="">Não selecionado</option>
-                {modelos.map(modelo => (
-                  <option value={modelo.id} key={modelo.id}>
-                    {modelo.descricao}
                   </option>
                 ))}
               </Form.Control>
@@ -307,7 +241,7 @@ export default function Eventos() {
                 }
                 as="select"
               >
-                <option> {evento.nome} </option>
+                <option>Local não definido</option>
                 {local.map(local => (
                   <option value={local.id} key={local.id}>
                     {local.nome}
@@ -351,7 +285,7 @@ export default function Eventos() {
                 backgroundColor: '#444',
                 borderRadius: 4,
               }}
-              className="inputEditDescricao"
+              className="inputEditLocal"
               name="descricao"
               placeholder={evento.descricao}
               value={evento.descricao}
@@ -362,41 +296,20 @@ export default function Eventos() {
             />
           </Form.Group>
 
-          <Form.Group controlId="formGridAddress1">
-            <Form.Control
-              style={{
-                color: '#fff',
-                backgroundColor: '#444',
-                borderRadius: 4,
-                height: 110,
-              }}
-              name="dizeres"
-              value={evento.dizeres}
-              onChange={e => setEvento({ ...evento, dizeres: e.target.value })}
-              as="textarea"
-            />
-          </Form.Group>
-
-          <Form.Group
-            id="formGridCheckboxAtiv"
-            style={{
-              display: 'flex',
-            }}
-          >
-            <label style={{ marginTop: 3 }}>Ativo</label>
+          <Form.Group id="formGridCheckboxAtiv">
             <Form.Check
-              style={{ marginLeft: 10 }}
+              style={{
+                width: 20,
+                marginleft: 40,
+                marginright: 140,
+                height: 20,
+              }}
               name="ativo"
-              type="checkbox"
+              label="Ativo"
               value={evento.ativo}
-              defaultChecked={evento.ativo}
-              onChange={e =>
-                setEvento({
-                  ...evento,
-                  ativo: ativo,
-                  ativo: handleAtivo(evento.ativo),
-                })
-              }
+              type="checkbox"
+              defaultChecked={ativo}
+              onClick={e => handleAtivo(ativo)}
             />
           </Form.Group>
         </Modal.Body>
@@ -414,18 +327,6 @@ export default function Eventos() {
             Gravar
           </Button>
         </Modal.Footer>
-      </Modal>
-      <Modal className="formModalLoad" show={showLoad} onHide={handleCloseLoad}>
-        <Modal.Body
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            justifyItems: 'center',
-          }}
-        >
-          <h1>Gerarndo certificado, aguarde!!!</h1>
-        </Modal.Body>
       </Modal>
     </>
   );
