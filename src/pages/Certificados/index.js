@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Card, Button, Col, Modal, CardColumns } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import api from '~/services/api';
 import { Container } from './styles';
 import Header from '~/components/Header';
-import {
-  updateEventoRequest,
-  participarEventoRequest,
-} from '~/store/modules/evento/actions';
 
 export default function Certificados() {
   const [eventos, setEventos] = useState([]);
   const [showLoad, setShowLoad] = useState(false);
   const handleCloseLoad = () => setShowLoad(false);
 
-  const [papeis, setPapeis] = useState(false);
   const profile = useSelector(state => state.usuario.profile);
 
   useEffect(() => {
@@ -26,19 +21,19 @@ export default function Certificados() {
     loadDados();
   }, []);
 
-  async function handleValidaCertificado(id, modelo_id) {
+  async function handleGeraCertificado(id, modelo_id) {
     if (modelo_id === null) {
       toast.error('Modelo de certificado não cadastrado.!');
     } else {
       setShowLoad(true);
-      const validaCert = await api.get(`validacertificados/${id}`);
+      const validaCert = await api.post(`certificados/${id}`);
       window.setTimeout(function() {
         fetch(validaCert.data.url).then(response => {
           response.blob().then(blob => {
             let url = window.URL.createObjectURL(blob);
             let a = document.createElement('a');
             a.href = url;
-            a.download = `certificado${profile.id}.pdf`;
+            a.download = `certificado${profile.id}-${id}.pdf`;
             a.click();
           });
         });
@@ -85,7 +80,7 @@ export default function Certificados() {
                         style={{ width: 220 }}
                         variant="primary"
                         onClick={() =>
-                          handleValidaCertificado(evento.id, evento.modelo_id)
+                          handleGeraCertificado(evento.id, evento.modelo_id)
                         }
                       >
                         Gerar certificado

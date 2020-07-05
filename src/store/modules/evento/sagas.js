@@ -64,6 +64,9 @@ export function* updateEvento({ payload }) {
       descricao,
       dizeres,
       ativo,
+      assinatura_left_id,
+      assinatura_center_id,
+      assinatura_right_id,
     } = payload.evento;
     const response = yield call(api.put, `eventos/${id}`, {
       curso_id,
@@ -77,6 +80,9 @@ export function* updateEvento({ payload }) {
       descricao,
       dizeres,
       ativo,
+      assinatura_left_id,
+      assinatura_center_id,
+      assinatura_right_id,
     });
     toast.success('Evento atualizado com sucesso!');
     yield put(updateEventoSuccess(response.evento));

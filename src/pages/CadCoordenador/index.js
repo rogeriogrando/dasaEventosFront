@@ -13,7 +13,7 @@ import { Container } from './styles';
 
 export default function CadCursos() {
   const [show, setShow] = useState(false);
-  const [coordenador, setCoordenador] = useState(false);
+  const [coordenador, setCoordenador ] = useState(false);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [papel, setPapel] = useState('');

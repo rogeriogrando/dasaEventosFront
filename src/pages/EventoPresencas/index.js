@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Col, CardColumns } from 'react-bootstrap';
+import { Card, Button, CardColumns } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from '~/store/modules/auth/actions';
 import api from '~/services/api';

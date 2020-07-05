@@ -18,6 +18,7 @@ export default function Eventos() {
   const [cursos, setCursos] = useState([]);
   const [modelos, setModelos] = useState([]);
   const [local, setLocal] = useState([]);
+  const [assinaturas, setAssinaturas] = useState([]);
 
   const [ativo, setAtivo] = useState(false);
   const [showLoad, setShowLoad] = useState(false);
@@ -28,12 +29,19 @@ export default function Eventos() {
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    const papel = profile.papel;
-    if (papel === 'coordenador' || papel === 'admin') {
-      setPapeis(true);
-    } else {
-      setPapeis(false);
+    async function loadAdm() {
+      const papel = profile.papel;
+      if (papel === 'coordenador' || papel === 'admin') {
+        setPapeis(true);
+        const modelos = await api.get('modelos');
+        setModelos(modelos.data);
+        const assinaturas = await api.get('assinaturas');
+        setAssinaturas(assinaturas.data);
+      } else {
+        setPapeis(false);
+      }
     }
+    loadAdm();
   }, [profile.papel]);
 
   useEffect(() => {
@@ -42,8 +50,6 @@ export default function Eventos() {
       setCursos(cursos.data);
       const local = await api.get('locais');
       setLocal(local.data);
-      const modelos = await api.get('modelos');
-      setModelos(modelos.data);
     }
     loadDados();
   }, []);
@@ -376,6 +382,83 @@ export default function Eventos() {
               as="textarea"
             />
           </Form.Group>
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridAssinatura">
+              <Form.Control
+                name="assinatura_left_id"
+                value={evento.assinatura_left_id}
+                onChange={e =>
+                  setEvento({
+                    ...evento,
+                    assinatura_left_id: e.target.value || null,
+                  })
+                }
+                as="select"
+                style={{
+                  color: '#fff',
+                  backgroundColor: '#444',
+                  borderRadius: 4,
+                }}
+              >
+                <option value="">Ass. Esquerda</option>
+                {assinaturas.map(assinatura => (
+                  <option value={assinatura.id} key={assinatura.id}>
+                    {assinatura.descricao}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridAssinatura">
+              <Form.Control
+                name="assinatura_center_id"
+                value={evento.assinatura_center_id}
+                onChange={e =>
+                  setEvento({
+                    ...evento,
+                    assinatura_center_id: e.target.value || null,
+                  })
+                }
+                as="select"
+                style={{
+                  color: '#fff',
+                  backgroundColor: '#444',
+                  borderRadius: 4,
+                }}
+              >
+                <option value="">Ass. Centro</option>
+                {assinaturas.map(assinatura => (
+                  <option value={assinatura.id} key={assinatura.id}>
+                    {assinatura.descricao}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridAssinatura">
+              <Form.Control
+                name="assinatura_right_id"
+                value={evento.assinatura_right_id}
+                onChange={e =>
+                  setEvento({
+                    ...evento,
+                    assinatura_right_id: e.target.value || null,
+                  })
+                }
+                as="select"
+                style={{
+                  color: '#fff',
+                  backgroundColor: '#444',
+                  borderRadius: 4,
+                }}
+              >
+                <option value="">Ass. Direita</option>
+                {assinaturas.map(assinatura => (
+                  <option value={assinatura.id} key={assinatura.id}>
+                    {assinatura.descricao}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Form.Row>
 
           <Form.Group
             id="formGridCheckboxAtiv"

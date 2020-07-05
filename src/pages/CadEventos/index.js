@@ -12,6 +12,10 @@ export default function CadEventos() {
   const [local, setLocal] = useState([]);
   const [local_id, setSala] = useState();
   const [cursos, setCursos] = useState([]);
+  const [assinaturas, setAssinaturas] = useState([]);
+  const [assinaturaLeft, setAssinaturaLeft] = useState();
+  const [assinaturaCenter, setAssinaturaCenter] = useState();
+  const [assinaturaRight, setAssinaturaRight] = useState();
   const [modelo_id, setModelo] = useState();
   const [curso_id, setCurso] = useState(null);
   const [data, setData] = useState(new Date().toISOString());
@@ -36,6 +40,8 @@ export default function CadEventos() {
       setLocal(local.data);
       const modelo = await api.get('modelos');
       setModelos(modelo.data);
+      const assinaturas = await api.get('assinaturas');
+      setAssinaturas(assinaturas.data);
     }
     loadDados();
   }, []);
@@ -59,6 +65,9 @@ export default function CadEventos() {
       descricao,
       dizeres,
       ativo,
+      assinatura_left_id: assinaturaLeft,
+      assinatura_center_id: assinaturaCenter,
+      assinatura_right_id: assinaturaRight,
     };
 
     dispatch(createEventoRequest(evento));
@@ -176,6 +185,50 @@ export default function CadEventos() {
               as="textarea"
             />
           </Form.Group>
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridAssinatura">
+              <Form.Control
+                name="assinatura_left_id"
+                onChange={e => setAssinaturaLeft(e.target.value) || null}
+                as="select"
+              >
+                <option>Assinatura à esquerda</option>
+                {assinaturas.map(assinatura => (
+                  <option value={assinatura.id} key={assinatura.id}>
+                    {assinatura.descricao}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridAssinatura">
+              <Form.Control
+                name="assinatura_left_id"
+                onChange={e => setAssinaturaCenter(e.target.value) || null}
+                as="select"
+              >
+                <option>Assinatura ao centro</option>
+                {assinaturas.map(assinatura => (
+                  <option value={assinatura.id} key={assinatura.id}>
+                    {assinatura.descricao}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridAssinatura">
+              <Form.Control
+                name="assinatura_left_id"
+                onChange={e => setAssinaturaRight(e.target.value) || null}
+                as="select"
+              >
+                <option>Assinatura à direita</option>
+                {assinaturas.map(assinatura => (
+                  <option value={assinatura.id} key={assinatura.id}>
+                    {assinatura.descricao}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Form.Row>
 
           <Form.Group id="formGridCheckboxAtiv">
             <Form.Check

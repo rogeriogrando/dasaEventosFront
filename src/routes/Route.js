@@ -1,4 +1,6 @@
 import React from 'react';
+import { signOut } from '~/store/modules/auth/actions';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
@@ -9,12 +11,16 @@ export default function RouterWapper({
   isPrivate = false,
   ...rest
 }) {
+  const dispatch = useDispatch();
   const { signed } = store.getState().auth;
+  console.tron.log(signed);
   if (!signed && isPrivate) {
+    dispatch(signOut());
     return <Redirect to="/" />;
   }
   if (signed && !isPrivate) {
-    return <Redirect to="/cursos" />;
+    dispatch(signOut());
+    return <Redirect to="/" />;
   }
 
   return <Route {...rest} render={props => <Component {...props} />} />;

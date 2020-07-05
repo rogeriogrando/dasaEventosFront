@@ -16,7 +16,7 @@ export default function RouterWapper({
     return <Redirect to="/" />;
   }
   if (signed && !isPrivate) {
-    return <Redirect to="/cursos" />;
+    return <Redirect to="/" />;
   }
   if (papel === 'usuario') {
     return <Redirect to="/" />;

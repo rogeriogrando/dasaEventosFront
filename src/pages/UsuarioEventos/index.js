@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Card, Button, Col, Modal, CardColumns } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { Form, Card, Button, Col, CardColumns } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import api from '~/services/api';
 import { Container } from './styles';
 import Header from '~/components/Header';
@@ -9,7 +9,6 @@ import { naoParticiparEventoRequest } from '~/store/modules/evento/actions';
 export default function UsuarioEventos() {
   const [loadEventos, setLoadEventos] = useState([]);
   const [eventos, setEventos] = useState([]);
-  const [evento, setEvento] = useState([]);
 
   useEffect(() => {
     async function loadEventos() {

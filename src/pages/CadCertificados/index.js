@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Card, CardColumns, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import Header from '~/components/Header';
-import fileDownload from 'js-file-download';
 
 import api from '~/services/api';
 
 import { Container, FormModal } from './styles';
 
 export default function CadCertificados() {
-  const { register, handleSubmitFile } = useForm();
+  const { register } = useForm();
   const [loadCertificados, setLoadCertificados] = useState([]);
   const [showEditar, setShowEditar] = useState(false);
   const [showNovo, setShowNovo] = useState(false);
@@ -67,7 +66,7 @@ export default function CadCertificados() {
     certificado.append('ativo', ativo);
     certificado.append('descricao', descricao.descricao);
     certificado.append('padrao', padrao);
-    const response = await api.post('modelos', certificado);
+    await api.post('modelos', certificado);
     handleCloseNovo();
     const modelos = await api.get('modelos');
     setLoadCertificados(modelos.data);
@@ -79,13 +78,11 @@ export default function CadCertificados() {
     certificado.append('ativo', ativo);
     certificado.append('descricao', modelo.descricao);
     certificado.append('padrao', padrao);
-    const response = await api.put(`modelos/${modelo.id}`, certificado);
+    await api.put(`modelos/${modelo.id}`, certificado);
     handleCloseEditar();
     const modelos = await api.get('modelos');
     setLoadCertificados(modelos.data);
   }
-
-  const dispatch = useDispatch();
 
   async function handleValidaCertificado(id) {
     setShowLoad(true);

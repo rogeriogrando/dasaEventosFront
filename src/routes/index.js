@@ -17,7 +17,6 @@ import ListaPresencas from '../pages/ListaPresencas';
 import EventoCursos from '../pages/EventoCursos';
 import CadCertificados from '../pages/CadCertificados';
 import Certificados from '../pages/Certificados';
-import teste from '../pages/teste';
 
 export default function Routes() {
   return (
@@ -35,7 +34,7 @@ export default function Routes() {
         component={EventoPresencas}
         isPrivate
       />
-      <PrivateRoute path="/teste" component={teste} isPrivate />
+
       <PrivateRoute
         path="/listapresencas"
         component={ListaPresencas}
