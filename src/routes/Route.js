@@ -13,7 +13,6 @@ export default function RouterWapper({
 }) {
   const dispatch = useDispatch();
   const { signed } = store.getState().auth;
-  console.tron.log(signed);
   if (!signed && isPrivate) {
     dispatch(signOut());
     return <Redirect to="/" />;

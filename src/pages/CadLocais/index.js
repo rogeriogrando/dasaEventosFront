@@ -54,7 +54,6 @@ export default function CadLocais() {
   }
 
   async function handleDelete(id) {
-    console.tron.log(id);
     dispatch(deleteLocalRequest(id));
     const response = await api.get('locais');
     setLoadLocais(response.data);

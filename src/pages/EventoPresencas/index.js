@@ -34,7 +34,6 @@ export default function EventoPresencas() {
     try {
       dispatch(loadParticipantes(id));
     } catch (err) {
-      console.tron.log(err);
       alert('Não foi possível encontrar evento.');
     }
   }

@@ -15,7 +15,6 @@ export function* cursoUp({ payload }) {
 
     history.push('cursos');
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha no cadastro, verifique seus dados!');
     yield put(cursoFailure());
   }
@@ -28,7 +27,6 @@ export function* updateCurso({ payload }) {
     toast.success('Curso atualizado com sucesso!');
     yield put(updateCursoSuccess(response.curso));
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha na atualização, verifique seus dados!');
     yield put(cursoFailure());
   }
@@ -40,7 +38,6 @@ export function* deleteCurso({ payload }) {
     yield call(api.delete, `cursos/${id}`);
     toast.success('Curso excluido!');
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha na exclusão!');
     yield put(cursoFailure());
   }

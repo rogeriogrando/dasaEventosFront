@@ -14,7 +14,6 @@ export function* updateCoordenador({ payload }) {
     toast.success('Coordenador atualizado com sucesso!');
     yield put(updateCoordenadorSuccess(response.coordenador));
   } catch (err) {
-    console.tron.log(err);
     toast.error('E-mail não encontrado!!');
     yield put(coordenadorFailure());
   }
@@ -26,7 +25,6 @@ export function* deleteCoordenador({ payload }) {
     yield call(api.delete, `coordenador/${id}`);
     toast.success('Coordenador excluido!');
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha na exclusão!');
     yield put(coordenadorFailure());
   }

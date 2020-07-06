@@ -83,7 +83,6 @@ export default function Eventos() {
   const dispatch = useDispatch();
 
   async function handleUpdate(evento) {
-    console.tron.log(evento);
     dispatch(updateEventoRequest(evento));
     const response = await api.get('eventos');
     setLoadEventos(response.data);

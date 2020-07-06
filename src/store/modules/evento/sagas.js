@@ -16,7 +16,6 @@ export function* createEvento({ payload }) {
     toast.success('Evento cadastrado com sucesso!');
     history.push('eventos');
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha no cadastro, verifique seus dados!');
     yield put(cretaeEventoFailure());
   }
@@ -24,12 +23,10 @@ export function* createEvento({ payload }) {
 
 export function* participarEvento({ payload }) {
   try {
-    console.tron.log(payload.evento);
     yield call(api.post, 'usuarioeventos', { evento_id: payload.evento });
     toast.success('Você esta participando de um novo evento!');
     history.push('eventos');
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha no cadastro, verifique seus dados!');
     yield put(cretaeEventoFailure());
   }
@@ -38,12 +35,10 @@ export function* participarEvento({ payload }) {
 export function* naoParticiparEvento({ payload }) {
   try {
     const id = payload.evento;
-    console.tron.log(id);
     yield call(api.delete, `usuarioeventos/${id}`);
     toast.success('Participação cancelada!');
     history.push('usuarioeventos');
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha ao cancelar a participação!');
     yield put(cretaeEventoFailure());
   }
@@ -87,7 +82,6 @@ export function* updateEvento({ payload }) {
     toast.success('Evento atualizado com sucesso!');
     yield put(updateEventoSuccess(response.evento));
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha na atualização, verifique seus dados!');
     yield put(eventoFailure());
   }

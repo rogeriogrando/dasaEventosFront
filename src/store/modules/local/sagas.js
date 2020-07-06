@@ -15,7 +15,6 @@ export function* localUp({ payload }) {
       capacidade,
     });
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha no cadastro, verifique seus dados!');
     yield put(localFailure());
   }
@@ -32,7 +31,6 @@ export function* updateLocal({ payload }) {
     toast.success('Local atualizado com sucesso!');
     yield put(updateLocalSuccess(response.local));
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha na atualização, verifique seus dados!');
     yield put(localFailure());
   }
@@ -44,7 +42,6 @@ export function* deleteLocal({ payload }) {
     yield call(api.delete, `locais/${id}`);
     toast.success('Local excluido!');
   } catch (err) {
-    console.tron.log(err);
     toast.error('Falha na exclusão!');
     yield put(localFailure());
   }
