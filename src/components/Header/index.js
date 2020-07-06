@@ -101,6 +101,9 @@ export default function Header() {
                 <NavDropdown.Item key="cadcertificados" href="/cadcertificados">
                   Modelos de Certificados
                 </NavDropdown.Item>
+                <NavDropdown.Item key="cadassinaturas" href="/cadassinaturas">
+                  Assinaturas
+                </NavDropdown.Item>
               </NavDropdown>
             )}
           </Nav>
