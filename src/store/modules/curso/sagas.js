@@ -13,7 +13,7 @@ export function* cursoUp({ payload }) {
       nome,
     });
 
-    history.push('cursos');
+    history.push('cadcursos');
   } catch (err) {
     toast.error('Falha no cadastro, verifique seus dados!');
     yield put(cursoFailure());
@@ -37,6 +37,7 @@ export function* deleteCurso({ payload }) {
     const { id } = payload;
     yield call(api.delete, `cursos/${id}`);
     toast.success('Curso excluido!');
+    history.push('cadcursos');
   } catch (err) {
     toast.error('Falha na exclusão!');
     yield put(cursoFailure());
