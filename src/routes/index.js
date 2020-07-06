@@ -28,7 +28,7 @@ export default function Routes() {
       <Route path="/usuarioeventos" component={UsuarioEventos} isPrivate />
       <Route path="/eventocursos" component={EventoCursos} isPrivate />
       <Route path="/usuariocertificados" component={Certificados} isPrivate />
-      <PrivateRoute path="/cursos" component={CadCursos} isPrivate />
+      <PrivateRoute path="/cadcursos" component={CadCursos} isPrivate />
       <PrivateRoute
         path="/eventopresencas"
         component={EventoPresencas}
