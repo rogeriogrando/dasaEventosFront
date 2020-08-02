@@ -54,6 +54,35 @@ export function setToken({ payload }) {
   }
 }
 
+export function* resetPasswordMailRequest({ payload }) {
+  try {
+    const { email } = payload;
+    yield call(api.post, '/resetpassword', {
+      email,
+    });
+    history.push('/');
+    yield put(signUpLoading());
+  } catch (err) {
+    toast.error('Falha ao enviar e-mail!');
+    yield put(signFailure());
+  }
+}
+
+export function* resetPasswordRequest({ payload }) {
+  try {
+    const { token, pass, confirmpass: confirPass } = payload;
+    yield call(api.put, `/resetpassword/${token}`, {
+      pass,
+      confirPass,
+    });
+    history.push('/');
+    yield put(signUpLoading());
+  } catch (err) {
+    toast.error('Falha ao enviar e-mail!');
+    yield put(signFailure());
+  }
+}
+
 export function signOut() {
   history.push('/');
 }
@@ -63,4 +92,6 @@ export default all([
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_UP_REQUEST', signUp),
   takeLatest('@auth/SIGN_OUT', signOut),
+  takeLatest('@auth/RESETPASSWORDMAIL_REQUEST', resetPasswordMailRequest),
+  takeLatest('@auth/RESETPASSWORD_REQUEST', resetPasswordRequest),
 ]);

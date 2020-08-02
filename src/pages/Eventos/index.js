@@ -98,19 +98,16 @@ export default function Eventos() {
       toast.error('Modelo de certificado não cadastrado.!');
     } else {
       setShowLoad(true);
-      const validaCert = await api.get(`validacertificados/${id}`);
-      window.setTimeout(function() {
-        fetch(validaCert.data.url).then(response => {
-          response.blob().then(blob => {
-            let url = window.URL.createObjectURL(blob);
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = `certificado${profile.id}.pdf`;
-            a.click();
-          });
-        });
-        setShowLoad(false);
-      }, 3000);
+
+      const blob = await api.get(`validacertificadoeventos/${id}`, {
+        responseType: 'arraybuffer',
+      });
+
+      var newBlob = new Blob([blob.data], { type: 'application/pdf' });
+      const data = window.URL.createObjectURL(newBlob);
+      window.open(data, '_blank');
+
+      setShowLoad(false);
     }
   }
 
@@ -207,6 +204,7 @@ export default function Eventos() {
                   color: '#fff',
                   backgroundColor: '#444',
                   borderRadius: 4,
+                  width: 227,
                 }}
                 name="data"
                 value={evento.data_orig}
@@ -218,12 +216,14 @@ export default function Eventos() {
               />
             </Form.Group>
             <Form.Group as={Col} controlId="formGridHoraIni">
-              <Form.Label>Hora inicial</Form.Label>
+              <Form.Label style={{ marginLeft: 78 }}>Hora inicial</Form.Label>
               <Form.Control
                 style={{
                   color: '#fff',
                   backgroundColor: '#444',
                   borderRadius: 4,
+                  width: 110,
+                  marginLeft: 78,
                 }}
                 name="horaini"
                 placeholder={evento.horaini}
@@ -235,12 +235,14 @@ export default function Eventos() {
               />
             </Form.Group>
             <Form.Group as={Col} controlId="formGridHoraFim">
-              <Form.Label>Hora Final</Form.Label>
+              <Form.Label style={{ marginLeft: 35 }}>Hora Final</Form.Label>
               <Form.Control
                 style={{
                   color: '#fff',
                   backgroundColor: '#444',
                   borderRadius: 4,
+                  width: 110,
+                  marginLeft: 35,
                 }}
                 name="horafim"
                 required
@@ -251,6 +253,8 @@ export default function Eventos() {
                 }
               />
             </Form.Group>
+          </Form.Row>
+          <Form.Row>
             <Form.Group as={Col} controlId="formGridCurso">
               <Form.Label>Cursos</Form.Label>
               <Form.Control
@@ -506,7 +510,7 @@ export default function Eventos() {
             justifyItems: 'center',
           }}
         >
-          <h1>Gerarndo certificado, aguarde!!!</h1>
+          <h1>Gerando certificado, aguarde!!!</h1>
         </Modal.Body>
       </Modal>
     </>

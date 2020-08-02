@@ -19,6 +19,20 @@ export function signUpRequest(nome, email, pass) {
   };
 }
 
+export function resetPasswordMailRequest(email) {
+  return {
+    type: '@auth/RESETPASSWORDMAIL_REQUEST',
+    payload: { email },
+  };
+}
+
+export function resetPasswordRequest(token, pass, confirmpass) {
+  return {
+    type: '@auth/RESETPASSWORD_REQUEST',
+    payload: { token, pass, confirmpass },
+  };
+}
+
 export function signUpLoading() {
   return {
     type: '@auth/SIGN_UP_LOADING',

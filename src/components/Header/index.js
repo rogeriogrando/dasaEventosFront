@@ -29,8 +29,10 @@ export default function Header() {
   }
 
   async function handleLoadCurso() {
-    const response = await api.get('cursos');
-    setCursos(response.data);
+    if (!cursos[0]) {
+      const response = await api.get('cursos');
+      setCursos(response.data);
+    }
   }
 
   return (
@@ -86,23 +88,29 @@ export default function Header() {
                 title="Cadastros"
                 id="collasible-nav-dropdown"
               >
-                <NavDropdown.Item key="cadeventos" href="/cadeventos">
-                  Eventos
-                </NavDropdown.Item>
-                <NavDropdown.Item key="cadcursos" href="/cadcursos">
-                  Cursos
-                </NavDropdown.Item>
-                <NavDropdown.Item key="cadlocais" href="/cadlocais">
-                  Local do evento
+                <NavDropdown.Item key="cadassinaturas" href="/cadassinaturas">
+                  Assinaturas
                 </NavDropdown.Item>
                 <NavDropdown.Item key="cadcoord" href="/cadcoord">
                   Coordenador
                 </NavDropdown.Item>
+                <NavDropdown.Item key="cadcursos" href="/cadcursos">
+                  Cursos
+                </NavDropdown.Item>
+                <NavDropdown.Item key="cadeventos" href="/cadeventos">
+                  Eventos
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  key="listaparticipantes"
+                  href="/listaparticipantes"
+                >
+                  Lista de participantes
+                </NavDropdown.Item>
+                <NavDropdown.Item key="cadlocais" href="/cadlocais">
+                  Local do evento
+                </NavDropdown.Item>
                 <NavDropdown.Item key="cadcertificados" href="/cadcertificados">
                   Modelos de Certificados
-                </NavDropdown.Item>
-                <NavDropdown.Item key="cadassinaturas" href="/cadassinaturas">
-                  Assinaturas
                 </NavDropdown.Item>
               </NavDropdown>
             )}

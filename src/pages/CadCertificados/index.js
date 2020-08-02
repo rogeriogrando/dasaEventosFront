@@ -86,19 +86,14 @@ export default function CadCertificados() {
 
   async function handleValidaCertificado(id) {
     setShowLoad(true);
-    const validaCert = await api.post(`validacertificados/${id}`);
-    window.setTimeout(function() {
-      fetch(validaCert.data.url).then(response => {
-        response.blob().then(blob => {
-          let url = window.URL.createObjectURL(blob);
-          let a = document.createElement('a');
-          a.href = url;
-          a.download = `certificado${profile.id}.pdf`;
-          a.click();
-        });
-      });
-      setShowLoad(false);
-    }, 3000);
+    const blob = await api.get(`validacertificados/${id}`, {
+      responseType: 'arraybuffer',
+    });
+
+    var newBlob = new Blob([blob.data], { type: 'application/pdf' });
+    const data = window.URL.createObjectURL(newBlob);
+    window.open(data, '_blank');
+    setShowLoad(false);
   }
 
   return (
@@ -330,7 +325,7 @@ export default function CadCertificados() {
               justifyItems: 'center',
             }}
           >
-            <h1>Gerarndo certificado, aguarde!!!</h1>
+            <h1>Gerando certificado, aguarde!!!</h1>
           </Modal.Body>
         </Modal>
       </FormModal>

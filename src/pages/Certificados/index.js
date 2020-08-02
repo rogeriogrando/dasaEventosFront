@@ -26,19 +26,14 @@ export default function Certificados() {
       toast.error('Modelo de certificado não cadastrado.!');
     } else {
       setShowLoad(true);
-      const validaCert = await api.post(`certificados/${id}`);
-      window.setTimeout(function() {
-        fetch(validaCert.data.url).then(response => {
-          response.blob().then(blob => {
-            let url = window.URL.createObjectURL(blob);
-            let a = document.createElement('a');
-            a.href = url;
-            a.download = `certificado${profile.id}-${id}.pdf`;
-            a.click();
-          });
-        });
-        setShowLoad(false);
-      }, 3000);
+      const blob = await api.get(`geracertificados/${id}`, {
+        responseType: 'arraybuffer',
+      });
+
+      var newBlob = new Blob([blob.data], { type: 'application/pdf' });
+      const data = window.URL.createObjectURL(newBlob);
+      window.open(data, '_blank');
+      setShowLoad(false);
     }
   }
 
@@ -83,7 +78,7 @@ export default function Certificados() {
                           handleGeraCertificado(evento.id, evento.modelo_id)
                         }
                       >
-                        Gerar certificado
+                        Meu certificado
                       </Button>
                     </Card.Footer>
                   </Form.Row>
@@ -103,7 +98,7 @@ export default function Certificados() {
             justifyItems: 'center',
           }}
         >
-          <h1>Gerarndo certificado, aguarde!!!</h1>
+          <h1>Gerando certificado, aguarde!!!</h1>
         </Modal.Body>
       </Modal>
     </>
