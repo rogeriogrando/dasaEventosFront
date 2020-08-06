@@ -37,16 +37,17 @@ export default function CadCertificados() {
   }
 
   async function handleAtivo(e) {
-    modelo.ativo ? setAtivo(false) : setAtivo(true);
+    ativo ? setAtivo(false) : setAtivo(true);
   }
 
   async function handlePadrao(e) {
-    modelo.padrao ? setPadrao(false) : setPadrao(true);
+    padrao ? setPadrao(false) : setPadrao(true);
   }
 
   async function handleShowNovo() {
     try {
       setShowNovo(true);
+      setAtivo(true);
     } catch (err) {
       alert('Erro ao cadastrar, tente novamente.');
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Card, CardColumns, Form } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import Header from '~/components/Header';
@@ -67,9 +68,15 @@ export default function CadAssinaturas() {
   }
 
   async function handleDelete(id) {
-    await api.delete(`assinaturas/${id}`);
-    const assinaturas = await api.get('assinaturas');
-    setLoadAssinatura(assinaturas.data);
+    try {
+      console.tron.log(id);
+      await api.delete(`assinaturas/${id}`);
+      const assinaturas = await api.get('assinaturas');
+      setLoadAssinatura(assinaturas.data);
+      toast.success('Evento cadastrado com sucesso!');
+    } catch (err) {
+      toast.error('Essa assinatura esta em uso, não pode ser excluida!');
+    }
   }
 
   return (
